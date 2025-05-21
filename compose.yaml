@@ -14,9 +14,17 @@ services:
       context: ./app
     links:
       - todo-database
-    #volumes: 
-    #  - ./app:/usr/src/app
-    #  - /usr/src/app/node_modules
+
+    # Mount a local folder "./app" to a container folder "/usr/src/app"
+    # However, prevent the bind mount from overwriting "/usr/src/app/node_modules"
+    # (this is where packages are installed).
+
+    # This bind mount enables us to make live changes while the app is running.
+    # We can edit files in the ./app directory, refresh the page, and because of
+    # the mount, the changes are reflected.
+    volumes: 
+     - ./app:/usr/src/app
+     - /usr/src/app/node_modules
     ports:
       - 3001:3001
 
